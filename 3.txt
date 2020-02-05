@@ -1,0 +1,47 @@
+#diffusion equation 1d euler scheme
+import numpy as np
+import matplotlib.pyplot as plt
+
+i=np.arange(0,20,0.05)
+j=np.arange(-4,4,0.05)
+
+u_1=np.zeros([len(j),len(i)])
+
+
+def exact_solution(j,x):
+    k=2
+    u_1[j,0]=(1/(np.sqrt(4*np.pi*k*t)))*np.exp(-(x**2)/(4*k*t))
+
+
+def euler_scheme(n,l,j,i):
+    k=2
+    delta_t=0.05
+    delta_x=0.05
+    b=(delta_t*k)/(delta_x**2)
+    u_1[n,l]=(1-2*b)*u_1[j+1,i]+b*(u_1[j+2,i]+u_1[j,i])
+    #print(u_1[j,i+1])
+
+t=0
+for z in np.arange(-4,4,0.1):
+    exact_solution(t,z)
+    t=t+1
+plt.plot(j,u_1[:,0])
+print(u_1) 
+
+
+l=1
+for g in np.arange(len(i)-1):
+    n=1
+    for s in np.arange(len(j)-2):
+        euler_scheme(n,l,s,g)
+        #print(n,l,s,0)
+        n=n+1       
+    u_1[0,l]=u_1[len(j)-2,l]   #i
+    u_1[len(j)-1,l]=u_1[1,l]   #i
+    l=l+1 
+print(u_1)
+plt.plot(j,u_1[:,len(i)-1])
+plt.xlabel('x')
+plt.ylabel('u')
+plt.legend(['exact solution','euler scheme'])
+plt.title('graph for t=20')

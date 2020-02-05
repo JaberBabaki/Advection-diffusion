@@ -1,0 +1,48 @@
+#advection equation 1d lax scheme
+import numpy as np
+import matplotlib.pyplot as plt
+
+i=np.arange(0,20,0.05)
+j=np.arange(-4,4,0.05)
+
+u_1=np.zeros([len(j),len(i)])
+
+
+def exact_solution(j,x):
+    v=0
+    t=0
+    u_1[j,0]=np.exp(-(x+0.3-v*t)**2)
+
+
+def lax_scheme(n,l,j,i):
+    v=0.05
+    delta_t=0.05
+    delta_x=0.05
+    a=(v*delta_t)/(2*delta_x)
+    u_1[n,l]=(1/2)*(u_1[j,i]+u_1[j+2,i])-a*(u_1[j+2,i]-u_1[j,i])
+    #print(u_1[j,i+1])
+
+t=0
+for z in np.arange(-4,4,0.05):
+    exact_solution(t,z)
+    t=t+1
+plt.plot(j,u_1[:,0])
+#print(u_1) 
+
+
+l=1
+for g in np.arange(len(i)-1):
+    n=1
+    for s in np.arange(len(j)-2):
+        lax_scheme(n,l,s,g)
+        #print(n,l,s,0)
+        n=n+1       
+    u_1[0,l]=u_1[len(j)-2,l]   #i
+    u_1[len(j)-1,l]=u_1[1,l]   #i
+    l=l+1 
+#print(u_1)
+plt.plot(j,u_1[:,len(i)-1])
+plt.xlabel('x')
+plt.ylabel('u')
+plt.legend(['exact solution','lax scheme'])
+plt.title('graph for t=20')
