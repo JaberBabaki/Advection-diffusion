@@ -4,9 +4,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
+
 z=np.arange(0,7,0.1)
-m1=np.arange(-7,7,0.1)
-m2=np.arange(-7,7,0.1)
+m1=np.arange(-1,1,0.1)
+m2=np.arange(-1,1,0.1)
+
+X=np.zeros([len(m1),len(m2)])
+Y=np.zeros([len(m1),len(m2)])
+
 u_1=np.zeros((len(z),len(m1),len(m2)))
 
 
@@ -24,14 +29,8 @@ for i in np.arange(0,7,0.1):
     z=z+1
 print(u_1)
 
-x = np.arange(u_1.shape[0])[:, None, None]
-y = np.arange(u_1.shape[1])[None, :, None]
-z = np.arange(u_1.shape[2])[None, None, :]
-x, y, z = np.broadcast_arrays(x, y, z)
 
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
-ax.scatter(x.ravel(),
-                             y.ravel(),
-                             z.ravel())
+ax.plot_surface(u_1[0,:,:],u_1[0,1,:],u_1[0,2,:])
 plt.show()
